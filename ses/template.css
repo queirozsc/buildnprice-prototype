@@ -1,0 +1,176 @@
+#bodyTable {
+}
+
+#bodyCell {
+}
+
+#templateHeader {
+}
+
+#templateBody {
+}
+
+#templateFooter {
+}
+
+.mcnPreviewText {
+  display: none;
+  font-size: 0px;
+  line-height: 0px;
+  max-height: 0px;
+  max-width: 0px;
+  opacity: 0;
+  overflow: hidden;
+  visibility: hidden;
+  mso-hide: all;
+}
+
+.templateContainer {
+}
+
+.headerContainer {
+}
+
+.mcnImageBlock {
+  min-width: 100%;
+}
+
+.mcnImageBlockOuter {
+}
+
+.mcnImageBlockInner {
+  padding: 9px
+}
+
+.mcnImageContentContainer {
+  min-width: 100%;
+}
+
+.mcnImageContent {
+  padding-right: 9px;
+  padding-left: 9px;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.mcnImage {
+  max-width: 200px;
+  padding-bottom: 0;
+  display: inline !important;
+  vertical-align: bottom;
+}
+
+.bodyContainer {
+}
+
+.mcnTextBlock {
+  min-width: 100%;
+}
+
+.mcnTextBlockOuter {
+}
+
+.mcnTextBlockInner {
+  padding-top: 9px;
+}
+
+.mcnTextContentContainer {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+.mcnTextContent {
+  padding-top: 0;
+  padding-right: 18px;
+  padding-bottom: 9px;
+  padding-left: 18px;
+}
+
+.mcnDividerBlock {
+  min-width: 100%;
+}
+
+.mcnDividerBlockOuter {
+}
+
+.mcnDividerBlockInner {
+  min-width: 100%;
+  padding: 18px;
+}
+
+.mcnDividerContent {
+  min-width: 100%;
+}
+
+.mcnButtonBlock {
+  min-width: 100%;
+}
+
+.mcnButtonBlockOuter {
+}
+
+.mcnButtonBlockInner {
+  padding-top: 0;
+  padding-right: 18px;
+  padding-bottom: 18px;
+  padding-left: 18px;
+}
+
+.mcnButtonContentContainer {
+  border-collapse: separate !important;
+  border-radius: 3px;
+  background-color: #00ADD8;
+}
+
+.mcnButtonContent {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  padding: 18px;
+}
+
+.mcnButton {
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  line-height: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.footerContainer {
+}
+
+.mcnFollowBlock {
+  min-width: 100%;
+}
+
+.mcnFollowBlockOuter {
+}
+
+.mcnFollowBlockInner {
+  padding: 9px
+}
+
+.mcnFollowContentContainer {
+  min-width: 100%;
+}
+
+.mcnFollowContent {
+  min-width: 100%;
+}
+
+.mcnFollowContentItemContainer {
+  padding-right: 10px;
+  padding-bottom: 9px;
+}
+
+.mcnFollowContentItem {
+}
+
+.mcnFollowIconContent {
+}
+
+. {
+  display: block;
+}

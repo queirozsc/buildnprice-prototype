@@ -1,0 +1,22 @@
+{
+    "jsonResult": [{
+        "description": "EROS BACIA P CAIXA ACOP BRANCO INCEPA",
+        "measure": "PE",
+        "quantity": "5",
+        "supplier": "CELITEINCEPALOGASA",
+        "code": "62898",
+        "barcode": "7891333038081",
+        "price": "0",
+        "total": "0"
+    }, {
+        "description": "CHUVEIRO MAXI DUCHA 3200W",
+        "measure": "CX",
+        "quantity": "4",
+        "supplier": "LORENZETTI",
+        "code": "632376",
+        "barcode": "7896451824820",
+        "price": "0",
+        "total": "0"
+    }],
+    "searchCodes": ["62898", "632376"]
+}

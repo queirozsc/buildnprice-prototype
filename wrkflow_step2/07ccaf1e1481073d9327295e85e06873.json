@@ -1,0 +1,27 @@
+{
+    "resultJson": [{
+        "description": "TORNEIRA PIA 1160 JED",
+        "quantity": "3",
+        "measure": "UN"
+    }, {
+        "description": "CHUVEIRO MAXI DUCHA 3200W",
+        "quantity": "4",
+        "measure": "CX"
+    }, {
+        "description": "EROS BACIA P CAIXA ACOP BRANCO INCEPA",
+        "quantity": "5",
+        "measure": "PE"
+    }, {
+        "description": "CAIXA DAGUA 1000 L",
+        "quantity": "6",
+        "measure": "UN"
+    }, {
+        "description": "TELHA BRASILIT",
+        "quantity": "7",
+        "measure": "UN"
+    }, {
+        "description": "BOX BANHEIRO",
+        "quantity": "8",
+        "measure": "UN"
+    }]
+}
