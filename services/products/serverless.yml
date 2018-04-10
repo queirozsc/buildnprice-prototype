@@ -21,7 +21,7 @@ provider:
 
 functions:
   get:
-    handler: get.get
+    handler: get.handler
     description: Collects all information about given product id.
     events:
       - http:
