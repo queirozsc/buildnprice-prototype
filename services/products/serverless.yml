@@ -22,7 +22,7 @@ provider:
 functions:
   get:
     handler: get.handler
-    description: Collects all information about given product id.
+    description: Collects from supplier all information about given product id.
     events:
       - http:
           path: products/{id}

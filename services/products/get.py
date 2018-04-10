@@ -1,6 +1,6 @@
 import os
 import json
-import http.client
+import datetime
 import logging
 from botocore.vendored import requests
 
@@ -9,20 +9,21 @@ log.setLevel(logging.DEBUG)
 
 def handler(event, context):
   log.debug('Received event {}'.format(json.dumps(event)))
-
+  ## Configuration parameters
   SUPPLIER_API_HOSTNAME = os.environ.get('SUPPLIER_API_HOSTNAME')
   SUPPLIER_API_PORT = os.environ.get('SUPPLIER_API_PORT')
   SUPPLIER_API_APPID = os.environ.get('SUPPLIER_API_APPID')
   SUPPLIER_API_TOKEN = os.environ.get('SUPPLIER_API_TOKEN')
   SUPPLIER_API_METHOD = os.environ.get('SUPPLIER_API_METHOD')
   product_id = event['pathParameters']['id']
-  
-  conn = http.client.HTTPConnection(SUPPLIER_API_HOSTNAME, SUPPLIER_API_PORT)
+  #Call API from supplier
+  url = "http://{0}:{1}/".format(SUPPLIER_API_HOSTNAME, SUPPLIER_API_PORT)
+
   payload = "{\n  \"app_id\": \"" + SUPPLIER_API_APPID \
       + "\",\n  \"token\": \"" + SUPPLIER_API_TOKEN \
       + "\",\n  \"mode\": \"" + SUPPLIER_API_METHOD \
     + "\",\n  \"produtos\": [\"" + product_id + "\"]\n}"
-  
+
   headers = {
     'content-type': "application/json",
     'host': "{}:{}".format(SUPPLIER_API_HOSTNAME, SUPPLIER_API_PORT),
@@ -31,25 +32,26 @@ def handler(event, context):
     'cache-control': "no-cache",
     'postman-token': "baf19c2e-6e26-54c1-2b9d-c39bf6614307"
   }
-  
-  conn.request("POST", "/", payload, headers)
-  res = conn.getresponse()
-  data = res.read()
-  body = data.decode("utf-8")
+  r = requests.request("POST", url, data=payload, headers=headers).text
+  #Formats JSON response
+  products = json.loads(r)
+  log.debug(products)
+  current_time = datetime.datetime.now().time()
+  body = {
+    "product": products['data'][0]['data'][0]['DESCRICAO'],
+    "barcode": products['data'][0]['data'][0]['EAN'],
+    "price": products['data'][0]['data'][0]['PRECO1'],
+    "manufacturer": products['data'][0]['data'][0]['RAZAO_SOCIAL'],
+    "available": products['data'][0]['data'][0]['ESTOQUE1'] \
+      + products['data'][0]['data'][0]['ESTOQUE2'] \
+      + products['data'][0]['data'][0]['ESTOQUE3'] \
+      + products['data'][0]['data'][0]['ESTOQUE4'] \
+      + products['data'][0]['data'][0]['ESTOQUE5'],
+    "timestamp": str(current_time)
+  }
 
-  # data = {'api_option': 'paste',
-  #         'api_user_key': '',
-  #         'api_paste_private': '0',
-  #         'api_paste_name': 'AWS Lambda python modules',
-  #         'api_paste_expire_date': '1D',
-  #         'api_paste_format': 'text',
-  #         'api_dev_key': SUPPLIER_API_TOKEN,
-  #         'api_paste_code': body}
-  # r = requests.post("http://pastebin.com/api/api_post.php", data=data)
-
-  log.debug('Get response: {}'.format(json.dumps(body)))
   response = {
     "statusCode": 200,
-    "body": json.dumps(data.decode("utf-8"))
+        "body": json.dumps(body)
   }
   return response
