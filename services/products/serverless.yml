@@ -1,0 +1,30 @@
+service: products
+
+frameworkVersion: ">=1.0.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: us-east-1
+  memorySize: 128
+  timeout: 10
+  logRetentionInDays: 1
+  endpointType: regional
+  environment:
+    SERVICE_NAME: ${self:service}
+    SUPPLIER_API_HOSTNAME: 'api.apotiguar.com.br'
+    SUPPLIER_API_PORT: '64462'
+    SUPPLIER_API_APPID: 'e03ad982449af87ade1899ffbc259eee'
+    SUPPLIER_API_TOKEN: '47320fd4d355f668a37a5895c15f509720a33a355a8fcac0f18c6f68da243b27'
+    SUPPLIER_API_METHOD: 'bnp_mdlog_get_list'
+
+functions:
+  get:
+    handler: get.get
+    description: Collects all information about given product id.
+    events:
+      - http:
+          path: products/{id}
+          method: get
+          cors: true
