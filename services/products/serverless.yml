@@ -19,6 +19,16 @@ provider:
     SUPPLIER_API_TOKEN: '47320fd4d355f668a37a5895c15f509720a33a355a8fcac0f18c6f68da243b27'
     SUPPLIER_API_METHOD: 'bnp_mdlog_get_list'
 
+plugins:
+  - serverless-python-requirements 
+  - serverless-sentry
+
+custom:
+  sentry:
+    dsn: https://b41a6186e7f64c1cb9c66079b90a9fde:93320261e04547f4a8001d178e349b6d@sentry.io/1188215 # URL provided by Sentry
+  pythonRequirements:
+    dockerizePip: non-linux    
+
 functions:
   get:
     handler: get.handler

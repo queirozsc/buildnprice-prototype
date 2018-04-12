@@ -3,12 +3,15 @@ import json
 import datetime
 import logging
 from botocore.vendored import requests
+from raven import Client # Offical `raven` module
+from raven_python_lambda import RavenLambdaWrapper
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
+@RavenLambdaWrapper()
 def handler(event, context):
-  log.debug('Received event {}'.format(json.dumps(event)))
+  print('Received event {}'.format(json.dumps(event)))
   ## Configuration parameters
   SUPPLIER_API_HOSTNAME = os.environ.get('SUPPLIER_API_HOSTNAME')
   SUPPLIER_API_PORT = os.environ.get('SUPPLIER_API_PORT')
