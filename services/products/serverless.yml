@@ -11,6 +11,12 @@ provider:
   timeout: 10
   logRetentionInDays: 1
   endpointType: regional
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - codedeploy:*
+      Resource:
+        - "*"
   environment:
     SERVICE_NAME: ${self:service}
     SUPPLIER_API_HOSTNAME: 'api.apotiguar.com.br'
@@ -22,6 +28,7 @@ provider:
 plugins:
   - serverless-python-requirements 
   - serverless-sentry
+  - serverless-plugin-canary-deployments
 
 custom:
   sentry:
@@ -38,3 +45,6 @@ functions:
           path: products/{id}
           method: get
           cors: true
+    deploymentSettings:
+      type: Canary10Percent5Minutes
+      alias: Live
