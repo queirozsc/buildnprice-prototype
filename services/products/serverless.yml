@@ -19,11 +19,11 @@ provider:
         - "*"
   environment:
     SERVICE_NAME: ${self:service}
-    SUPPLIER_API_HOSTNAME: 'api.apotiguar.com.br'
-    SUPPLIER_API_PORT: '64462'
-    SUPPLIER_API_APPID: 'e03ad982449af87ade1899ffbc259eee'
-    SUPPLIER_API_TOKEN: '47320fd4d355f668a37a5895c15f509720a33a355a8fcac0f18c6f68da243b27'
-    SUPPLIER_API_METHOD: 'bnp_mdlog_get_list'
+    SUPPLIER_API_HOSTNAME: ${ssm:SUPPLIER_API_HOSTNAME}
+    SUPPLIER_API_PORT: ${ssm:SUPPLIER_API_PORT}
+    SUPPLIER_API_APPID: ${ssm:SUPPLIER_API_APPID}
+    SUPPLIER_API_TOKEN: ${ssm:SUPPLIER_API_TOKEN}
+    SUPPLIER_API_METHOD: ${ssm:SUPPLIER_API_METHOD}
 
 plugins:
   - serverless-python-requirements 
@@ -34,7 +34,10 @@ custom:
   sentry:
     dsn: https://b41a6186e7f64c1cb9c66079b90a9fde:93320261e04547f4a8001d178e349b6d@sentry.io/1188215 # URL provided by Sentry
   pythonRequirements:
-    dockerizePip: non-linux    
+    dockerizePip: non-linux
+  # serverless-kms-secrets:
+  #   secretsFile: kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml (optional)
+  # kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}        
 
 functions:
   get:
@@ -46,5 +49,25 @@ functions:
           method: get
           cors: true
     deploymentSettings:
-      type: Canary10Percent5Minutes
-      alias: Live
+      type: Canary10Percent5Minutes{
+      alias: live
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - ssm:GetParameters
+        Resource:
+          - arn:aws:ssm:${self:provider.region}:${self:}:parameter/ 
+
+      # iamRoleStatements:
+    #   - Effect: Allow
+    #     Action:
+    #       - KMS:Decrypt
+    #     Resource:
+    #       - ${self:custom.kmsSecrets.keyArn} 
+
+[DEBUG]	2018-04-13T12:09:29.168Z	Response body:
+b'
+{
+    "__type": "AccessDeniedException",
+    "Message": "User: arn:aws:sts::789753010953:assumed-role/products-dev-us-east-1-lambdaRole/products-dev-get is not authorized to perform: ssm:GetParameter on resource: arn:aws:ssm:us-east-1:789753010953:parameter/SUPPLIER_API_HOSTNAME"
+}

@@ -2,6 +2,7 @@ import os
 import json
 import datetime
 import logging
+import boto3
 from botocore.vendored import requests
 from raven import Client # Offical `raven` module
 from raven_python_lambda import RavenLambdaWrapper
@@ -9,15 +10,26 @@ from raven_python_lambda import RavenLambdaWrapper
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
+## Parameter Store
+ssm = boto3.client('ssm')
+
+def get_secret(key):
+  resp = ssm.get_parameter(
+    Name=key,
+    WithDecryption=True
+  )
+  return resp['Parameter']['value']
+## Configuration parameters
+SUPPLIER_API_HOSTNAME = get_secret('SUPPLIER_API_HOSTNAME')
+SUPPLIER_API_PORT = get_secret('SUPPLIER_API_PORT')
+SUPPLIER_API_APPID = get_secret('SUPPLIER_API_APPID')
+SUPPLIER_API_TOKEN = get_secret('SUPPLIER_API_TOKEN')
+SUPPLIER_API_METHOD = get_secret('SUPPLIER_API_METHOD')
+
+
 @RavenLambdaWrapper()
 def handler(event, context):
   print('Received event {}'.format(json.dumps(event)))
-  ## Configuration parameters
-  SUPPLIER_API_HOSTNAME = os.environ.get('SUPPLIER_API_HOSTNAME')
-  SUPPLIER_API_PORT = os.environ.get('SUPPLIER_API_PORT')
-  SUPPLIER_API_APPID = os.environ.get('SUPPLIER_API_APPID')
-  SUPPLIER_API_TOKEN = os.environ.get('SUPPLIER_API_TOKEN')
-  SUPPLIER_API_METHOD = os.environ.get('SUPPLIER_API_METHOD')
   product_id = event['pathParameters']['id']
   #Call API from supplier
   url = "http://{0}:{1}/".format(SUPPLIER_API_HOSTNAME, SUPPLIER_API_PORT)
@@ -39,7 +51,6 @@ def handler(event, context):
   #Formats JSON response
   products = json.loads(r)
   log.debug(products)
-  current_time = datetime.datetime.now().time()
   body = {
     "product": products['data'][0]['data'][0]['DESCRICAO'],
     "barcode": products['data'][0]['data'][0]['EAN'],
@@ -50,7 +61,8 @@ def handler(event, context):
       + products['data'][0]['data'][0]['ESTOQUE3'] \
       + products['data'][0]['data'][0]['ESTOQUE4'] \
       + products['data'][0]['data'][0]['ESTOQUE5'],
-    "timestamp": str(current_time)
+    "timestamp": str(datetime.datetime.now()),
+    "version": '0.3'
   }
 
   response = {
