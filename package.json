@@ -5,6 +5,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "raven": "^2.5.0",
+    "serverless-sentry-lib": "^1.0.1",
     "uuid": "^2.0.3"
+  },
+  "devDependencies": {
+    "serverless-sentry": "^1.0.0"
   }
 }
